@@ -44,28 +44,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         jwt = authHeader.substring(7);
 
         try {
-            userEmail = jwtService.extractUsername(jwt);
-
-            if (revokedTokenRepo.findByToken(jwt).isPresent()){
+            if (revokedTokenRepo.findByToken(jwt).isPresent()) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.setContentType("application/json");
-                response.getWriter().write("{\"error\": \"token has been revoked\"}");
+                response.getWriter().write("{\"error\": \"Token has been revoked\"}");
                 return;
             }
+
+            userEmail = jwtService.extractUsername(jwt);
 
             if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
                 if (jwtService.isTokenValid(jwt, userDetails)) {
-                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails,
                             null,
                             userDetails.getAuthorities()
                     );
-                    authenticationToken.setDetails(
-                            new WebAuthenticationDetailsSource().buildDetails(request)
-                    );
-                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
             filterChain.doFilter(request, response);

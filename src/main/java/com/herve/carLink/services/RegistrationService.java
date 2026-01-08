@@ -1,5 +1,6 @@
 package com.herve.carLink.services;
 
+import com.herve.carLink.dtos.AdminRequest;
 import com.herve.carLink.dtos.UserRequest;
 import com.herve.carLink.models.Role;
 import com.herve.carLink.models.User;
@@ -17,10 +18,13 @@ public class RegistrationService {
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
 
-    public void register(UserRequest userRequest) {
+    public void register(UserRequest userRequest ) {
 
-        if (userRepo.findByEmail(userRequest.getEmail()).isPresent()){
-            throw new IllegalArgumentException("email already exists!!");
+        System.out.println("Données reçues dans register : " + userRequest);
+        System.out.println("Mot de passe reçu : " + userRequest.getPassword());
+
+        if (userRepo.existsByEmail(userRequest.getEmail())){
+            throw new RuntimeException("email already exists!!");
         }
 
         User user = new User();
@@ -29,10 +33,32 @@ public class RegistrationService {
         user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         user.setPhoneNumber(userRequest.getPhoneNumber());
         user.setDrivingLicense(userRequest.getDrivingLicense());
+        System.out.println("Mot de passe avant encodage : " + userRequest.getPassword());
+        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        System.out.println("Mot de passe après encodage : " + user.getPassword());
+        user.setEnabled(true);
+        user.setAccountLocked(false);
         user.setRole(Set.of(Role.USER));
+
+        userRepo.save(user);
+
+    }
+
+
+    public void registerAdmin(AdminRequest adminRequest  ) {
+
+        if (userRepo.existsByEmail(adminRequest.getEmail())){
+            throw new RuntimeException("email already exists!!");
+        }
+
+        User user = new User();
+        user.setName(adminRequest.getName());
+        user.setEmail(adminRequest.getEmail());
+        user.setPassword(passwordEncoder.encode(adminRequest.getPassword()));
+        user.setRole(Set.of(Role.ADMIN));
         user.setEnabled(true);
         user.setAccountLocked(false);
 
-        userRepo.save(user);
+         userRepo.save(user);
     }
 }

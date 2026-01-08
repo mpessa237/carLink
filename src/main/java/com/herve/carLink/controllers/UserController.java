@@ -1,6 +1,6 @@
 package com.herve.carLink.controllers;
 
-import com.herve.carLink.common.ApiResponse;
+import com.herve.carLink.dtos.AdminRequest;
 import com.herve.carLink.dtos.LoginRequest;
 import com.herve.carLink.dtos.LoginResponse;
 import com.herve.carLink.dtos.UserRequest;
@@ -28,8 +28,14 @@ public class UserController {
         return ResponseEntity.ok("user register successfully!!");
     }
 
+    @PostMapping("/admin")
+    public ResponseEntity<String> save(@Validated @RequestBody AdminRequest adminRequest){
+        registrationService.registerAdmin(adminRequest);
+        return ResponseEntity.ok("admin register successfully!!");
+    }
+
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> authenticate(@Validated @RequestBody LoginRequest loginRequest){
-        return ResponseEntity.ok(loginService.authenticate(loginRequest));
+        return ResponseEntity.ok(loginService.login(loginRequest));
     }
 }
