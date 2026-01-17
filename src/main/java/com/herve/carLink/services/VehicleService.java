@@ -38,6 +38,15 @@ public class VehicleService {
         return vehicleMapper.toDto(vehicle);
     }
 
+    @Transactional
+    public VehicleResponse markVehicleAsAvailable(Integer vehicleId){
+        Vehicle vehicle = vehicleRepo.findById(vehicleId)
+                .orElseThrow(()-> new RuntimeException("vehicle not found!!"));
+        vehicle.setAvailable(true);
+        vehicle = vehicleRepo.save(vehicle);
+        return vehicleMapper.toDto(vehicle);
+    }
+
     //retournes une liste paginee de vehicule disponible
     public List<VehicleResponse> getAvailableVehicles(Pageable pageable){
         Page<Vehicle> vehicles = vehicleRepo.findByAvailableTrue(pageable);

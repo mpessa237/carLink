@@ -1,6 +1,7 @@
 package com.herve.carLink.mappers;
 
 import com.herve.carLink.common.LocationPriceCalculator;
+import com.herve.carLink.dtos.InvoiceResponse;
 import com.herve.carLink.dtos.LocationRequest;
 import com.herve.carLink.dtos.LocationResponse;
 import com.herve.carLink.models.Location;
@@ -39,6 +40,17 @@ public class LocationMapper {
         response.setEndDate(location.getEndDate());
         response.setPrice(location.getPrice());
         response.setStatus(location.getStatus().name());
+
+        // Ajouter la facture si elle existe
+        if (location.getInvoice() != null) {
+            InvoiceResponse invoiceResponse = new InvoiceResponse();
+            invoiceResponse.setInvoiceId(location.getInvoice().getInvoiceId());
+            invoiceResponse.setDateEmission(location.getInvoice().getDateEmission());
+            invoiceResponse.setAmount(location.getInvoice().getAmount());
+            invoiceResponse.setStatusInvoice(location.getInvoice().getStatusInvoice().name());
+            response.setInvoice(invoiceResponse);
+
+        }
         return response;
     }
 }

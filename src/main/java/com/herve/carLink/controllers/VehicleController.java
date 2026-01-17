@@ -33,6 +33,13 @@ public class VehicleController {
        return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @PatchMapping("/{vehicleId}/available")
+    public ResponseEntity<VehicleResponse> markVehicleAsAvailable(@PathVariable Integer vehicleId){
+        VehicleResponse response = vehicleService.markVehicleAsAvailable(vehicleId);
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/available")
     public ResponseEntity<List<VehicleResponse>> getAvailableVehicles(Pageable pageable) {
         List<VehicleResponse> responses = vehicleService.getAvailableVehicles(pageable);

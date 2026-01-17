@@ -9,8 +9,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LocationRequest {
-    private Integer vehicleId;
+public class LocationUpdateRequest {
     private Date startDate;
     private Date endDate;
 }

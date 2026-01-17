@@ -5,12 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LocationRequest {
-    private Integer vehicleId;
-    private Date startDate;
-    private Date endDate;
+public class InvoiceResponse {
+    private Integer invoiceId;
+    private Date dateEmission;
+    private Double amount;
+    private String statusInvoice;
 }

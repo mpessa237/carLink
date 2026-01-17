@@ -17,4 +17,5 @@ public class LocationResponse {
     private Date endDate;
     private Double price;
     private String status;
+    private InvoiceResponse invoice;
 }

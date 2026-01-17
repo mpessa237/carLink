@@ -31,4 +31,7 @@ public class Location {
     @ManyToOne
     @JoinColumn(name = "client_id")
     private User client;
+
+    @OneToOne(mappedBy = "location", cascade = CascadeType.ALL)
+    private Invoice invoice;
 }
