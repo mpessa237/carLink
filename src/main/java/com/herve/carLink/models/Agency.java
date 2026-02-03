@@ -24,4 +24,8 @@ public class Agency {
 
     @OneToMany(mappedBy = "agency", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Vehicle> vehicleList = new ArrayList<>();
+
+    //afficher les agences disponibles
+    //afficher les vehicules par agence
+    //gestion des agences
 }

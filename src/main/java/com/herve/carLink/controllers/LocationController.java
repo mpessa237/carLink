@@ -29,6 +29,7 @@ public class LocationController {
         LocationResponse response = locationService.createLocation(locationRequest, client);
         return ResponseEntity.ok(response);
     }
+
     @PatchMapping("{locationId}/cancel")
     public ResponseEntity<LocationResponse> cancelLocation(
             @PathVariable Integer locationId,

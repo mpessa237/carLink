@@ -29,7 +29,7 @@ public class SecurityConfig {
                         "/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.POST,"/api/vehicles").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PATCH,"/api/vehicles").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST,"/api/locations").hasRole("USER")
+                        .requestMatchers(HttpMethod.POST,"/api/locations").permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/vehicles").permitAll()
                         .requestMatchers("/api/locations/vehicle/{vehicleId}").permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/vehicles/available").permitAll()
